@@ -1,3 +1,4 @@
+{{- $secretName := first (compact (list .Values.secret.existingVolumeCredentialsSecret "juicefs-secret")) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -39,17 +40,17 @@ spec:
             {{- end }}
           envFrom:
             - secretRef:
-                name: juicefs-secret
+                name: {{ $secretName }}
           env:
             - name: accesskey
               valueFrom:
                 secretKeyRef:
-                  name: juicefs-secret
+                  name: {{ $secretName }}
                   key: access-key
             - name: secretkey
               valueFrom:
                 secretKeyRef:
-                  name: juicefs-secret
+                  name: {{ $secretName }}
                   key: secret-key
             {{- if .Values.initEnvs }}
 {{ toYaml .Values.initEnvs | indent 12 }}
@@ -82,29 +83,29 @@ spec:
             - name: TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: juicefs-secret
+                  name: {{ $secretName }}
                   key: token
             - name: VOL_NAME
               valueFrom:
                 secretKeyRef:
-                  name: juicefs-secret
+                  name: {{ $secretName }}
                   key: name
             {{- else }}
             - name: METAURL
               valueFrom:
                 secretKeyRef:
-                  name: juicefs-secret
+                  name: {{ $secretName }}
                   key: metaurl
             {{- end }}
             - name: MINIO_ROOT_USER
               valueFrom:
                 secretKeyRef:
-                  name: juicefs-secret
+                  name: {{ $secretName }}
                   key: access-key
             - name: MINIO_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: juicefs-secret
+                  name: {{ $secretName }}
                   key: secret-key
             {{- if .Values.envs }}
 {{ toYaml .Values.envs | indent 12 }}

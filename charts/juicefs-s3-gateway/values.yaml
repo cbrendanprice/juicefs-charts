@@ -71,6 +71,10 @@ extraVolumeMounts:
   #    mountPath: "/etc/ceph"
 
 secret:
+  # -- The name of an existing volume credentials secret that will be used instead of creating a secret.
+  # CE Ref: https://juicefs.com/docs/csi/guide/pv#community-edition
+  # EE Ref: https://juicefs.com/docs/csi/guide/pv#enterprise-edition
+  existingVolumeCredentialsSecret: ""
   # -- The JuiceFS file system name.
   name: ""
   # -- JuiceFS Enterprise Edition file system token, if this token is specified,
